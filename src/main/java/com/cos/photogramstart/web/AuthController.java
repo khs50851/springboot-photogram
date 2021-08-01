@@ -13,8 +13,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.photogramstart.domain.user.User;
+import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.service.AuthService;
 import com.cos.photogramstart.web.dto.auth.SignupDto;
 
@@ -51,19 +53,20 @@ public class AuthController {
 			
 			for(FieldError error : bindingResult.getFieldErrors()) {
 				errorMap.put(error.getField(), error.getDefaultMessage());
-				System.out.println(error.getDefaultMessage());
+				// System.out.println(error.getDefaultMessage());
 			}
-			
+			throw new CustomValidationException("유효성 검사 실패",errorMap);
+		}else {
+			log.info(dto.toString());
+			User user = dto.toEntity();
+			User userEntity = authService.회원가입(user);
+			log.info(user.toString());
+			System.out.println(userEntity); // insert된 userEntity 확인
+			return "auth/signin";
 		}
 		
-		log.info(dto.toString());
-		User user = dto.toEntity();
-		User userEntity = authService.회원가입(user);
-		log.info(user.toString());
 		
-		System.out.println(userEntity); // insert된 userEntity 확인
 		
-		return "auth/signin";
 	}
 	
 	
