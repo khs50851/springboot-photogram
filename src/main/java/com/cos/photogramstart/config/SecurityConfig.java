@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable(); // csrf토큰 비활성화
 		
 		http.authorizeRequests()
-			.antMatchers("/","/user/**","/image/**","/subscribe/**","/comment/**").authenticated() // 이건 권한 있어야 들어가짐
+			.antMatchers("/","/user/**","/image/**","/subscribe/**","/comment/**","/api/**").authenticated() // 이건 권한 있어야 들어가짐
 			.anyRequest().permitAll() // 나머진 접근 허가
 			.and() 
 			.formLogin() // 권한 있어야하는 페이지 접근하면 자동으로 로그인페이지 이동

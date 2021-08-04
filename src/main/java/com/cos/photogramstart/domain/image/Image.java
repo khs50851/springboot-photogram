@@ -1,8 +1,8 @@
-package com.cos.photogramstart.domain.subscribe;
+package com.cos.photogramstart.domain.image;
+
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import com.cos.photogramstart.domain.user.User;
 
@@ -25,27 +23,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity // 디비에 테이블 생성
-@Table(
-		uniqueConstraints = {
-				@UniqueConstraint(
-						name="subscribe_uk",
-						columnNames = {"fromUserId","toUserId"}
-						)
-		}				
-		)
-
-public class Subscribe {
+public class Image {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //번호 증가 전략을 데이터베이스에 따라가게함
 	private int id;
 	
-	@JoinColumn(name="fromUserId") // 컬럼명
-	@ManyToOne
-	private User fromUser;
+	private String caption;
+	private String postImageUrl; // 사진을 전송 받아서 그 사진을 서버에 특정 폴더에 저장 - DB에는 그 저장된 경로를 insert
 	
-	@JoinColumn(name="toUserId")
+	@JoinColumn(name = "userId")
 	@ManyToOne
-	private User toUser;
+	private User user;
 	
 	private LocalDateTime createDate;
 	

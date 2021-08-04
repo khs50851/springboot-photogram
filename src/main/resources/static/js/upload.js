@@ -1,5 +1,6 @@
 // (1) 스토리 이미지 업로드를 위한 사진 선택 로직
 function imageChoose(obj) {
+	console.log(obj);
 	let f = obj.files[0];
 
 	if (!f.type.match("image.*")) {

@@ -21,15 +21,15 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
       
   servlet:
     multipart:
-      enabled: true
-      max-file-size: 2MB
+      enabled: true # 멀티파일로 받겠다 true설정
+      max-file-size: 2MB # 최대용량
 
   security:
     user:
