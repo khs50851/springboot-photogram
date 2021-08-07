@@ -14,4 +14,9 @@ public interface SubscribeRepository extends JpaRepository<Subscribe, Integer>{
 	@Query(value = "delete from subscribe where fromUserid=:fromUserId and toUserId=:toUserId",nativeQuery = true) // :은 메서드 안에 매개변수를 바인드해서 넣겠다는 문법
 	void mUnSubscribe(int fromUserId,int toUserId);
 	
+	@Query(value = "SELECT COUNT(*) FROM subscribe WHERE fromUserId = :principalId and toUserid=:pageUserId", nativeQuery = true)
+	int mSubscribeState(int principalId,int pageUserId);
+	
+	@Query(value = "SELECT COUNT(*) FROM subscribe WHERE fromUserId = :pageUserId", nativeQuery = true)
+	int mSubscribeCount(int pageUserId);
 }

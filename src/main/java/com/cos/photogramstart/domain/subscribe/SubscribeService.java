@@ -16,12 +16,16 @@ public class SubscribeService {
 	@Transactional
 	public void 구독하기(int fromUserId, int toUserId) {
 		
-		
-		try {
-			subscribeRepository.mSubscribe(fromUserId, toUserId);
-		}catch (Exception e) {
-			throw new CustomApiException("이미 구독중입니다.");
+		if(fromUserId != toUserId) {
+			try {
+				subscribeRepository.mSubscribe(fromUserId, toUserId);
+			}catch (Exception e) {
+				throw new CustomApiException("이미 구독중입니다.");
+			}
+		}else {
+			throw new CustomApiException("자기 자신을 구독 할 순 없습니다.");
 		}
+		
 		
 		
 	}
