@@ -20,7 +20,6 @@ import com.cos.photogramstart.config.auth.PrincipalDetails;
 import com.cos.photogramstart.domain.subscribe.SubscribeService;
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
-import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.service.UserService;
 import com.cos.photogramstart.web.dto.CMRespDto;
 import com.cos.photogramstart.web.dto.subscribe.SubscribeDto;
