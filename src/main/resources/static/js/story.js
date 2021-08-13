@@ -44,12 +44,19 @@ function getStoryItem(image) {
 	<div class="sl__item__contents">
 		<div class="sl__item__contents__icon">
 
-			<button>
-				<i class="fas fa-heart active" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>
+			<button>`;
+			
+			if(image.likeState){
+				item +=	`<i class="fas fa-heart active" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`;
+			}else{
+				item +=	`<i class="far fa-heart" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>`;
+			}
+		
+		item += `		
 			</button>
 		</div>
 
-		<span class="like"><b id="storyLikeCount-1">3 </b>likes</span>
+		<span class="like"><b id="storyLikeCount-${image.id}">${image.likeCount} </b>likes</span>
 
 		<div class="sl__item__contents__content">
 			<p>${image.caption}</p>
@@ -86,7 +93,7 @@ $(window).scroll(() => {
 	
 	let checkNum = $(window).scrollTop() - ($(document).height() - $(window).height());
 	
-	console.log("checkNum : ",checkNum);
+	// console.log("checkNum : ",checkNum);
 	
 	if(checkNum < 1 && checkNum > -1){
 		page++;
@@ -99,14 +106,45 @@ $(window).scroll(() => {
 // (3) 좋아요, 안좋아요
 function toggleLike(imageId) {
 	let likeIcon = $(`#storyLikeIcon-${imageId}`);
-	if (likeIcon.hasClass("far")) {
-		likeIcon.addClass("fas");
-		likeIcon.addClass("active");
-		likeIcon.removeClass("far");
-	} else {
-		likeIcon.removeClass("fas");
-		likeIcon.removeClass("active");
-		likeIcon.addClass("far");
+	
+	
+	if (likeIcon.hasClass("far")) { // 좋아요 누름
+		$.ajax({
+			type:"post",
+			url:`/api/image/${imageId}/likes`,
+			dataType:"json"
+		}).done(res=>{
+			console.log("res ->",res);
+			let likeCountStr = $(`#storyLikeCount-${imageId}`).text();
+			let likeCount = Number(likeCountStr)+1;
+			
+			$(`#storyLikeCount-${imageId}`).text(likeCount);
+			
+			console.log("likeCountStr : ",likeCountStr);
+			console.log("likeCount : ",likeCount);
+			likeIcon.addClass("fas");
+			likeIcon.addClass("active");
+			likeIcon.removeClass("far");
+		}).fail(error=>{
+			console.log(error);
+		})
+	} else { // 좋아요 취소
+		$.ajax({
+			type:"delete",
+			url:`/api/image/${imageId}/likes`,
+			dataType:"json"
+		}).done(res=>{
+			console.log(res);
+			let likeCountStr = $(`#storyLikeCount-${imageId}`).text();
+			let likeCount = Number(likeCountStr)-1;
+			$(`#storyLikeCount-${imageId}`).text(likeCount);
+			likeIcon.removeClass("fas");
+			likeIcon.removeClass("active");
+			likeIcon.addClass("far");
+		}).fail(error=>{
+			console.log(error);
+		})
+		
 	}
 }
 
