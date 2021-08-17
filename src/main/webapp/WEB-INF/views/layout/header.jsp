@@ -4,7 +4,6 @@
 
 <sec:authorize access="isAuthenticated()"> <!--  세션 접근 -->
 	<sec:authentication property="principal" var="principal"/>
-
 </sec:authorize>
 
 <!DOCTYPE html>
@@ -35,6 +34,9 @@
 
 <body>
 	
+	<!-- principalId 담아두는 곳 javascript에서 어디서든 꺼내 쓸 수 있음-->
+	<input type="hidden" id="principalId" value="${principal.user.id}"/>	
+		
 	<header class="header">
 		<div class="container">
 			<a href="/" class="logo">
