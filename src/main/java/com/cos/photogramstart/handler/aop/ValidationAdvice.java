@@ -6,6 +6,8 @@ import java.util.Map;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -17,8 +19,13 @@ import com.cos.photogramstart.handler.ex.CustomValidationException;
 @Aspect
 public class ValidationAdvice {
 	
+	private static final Logger log = LoggerFactory.getLogger(ValidationAdvice.class);
+	
 	@Around("execution(* com.cos.photogramstart.web.api.*Controller.*(..))")
 	public Object apiAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+		
+		String type = proceedingJoinPoint.getSignature().getDeclaringTypeName();
+		String method = proceedingJoinPoint.getSignature().getName();
 		
 		Object[] args = proceedingJoinPoint.getArgs(); // 함수의 매개변수를 배열로 뽑기
 		
@@ -30,6 +37,7 @@ public class ValidationAdvice {
 					
 					for(FieldError error : bindingResult.getFieldErrors()) {
 						errorMap.put(error.getField(), error.getDefaultMessage());
+					log.warn(type+"."+method+"() => 필드 : "+error.getField()+", 메세지 : "+error.getDefaultMessage());	
 					}
 					throw new CustomValidationApiException("유효성 검사 실패", errorMap);
 				}
@@ -45,6 +53,9 @@ public class ValidationAdvice {
 	@Around("execution(* com.cos.photogramstart.web.*Controller.*(..))")
 	public Object advice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 		
+		String type = proceedingJoinPoint.getSignature().getDeclaringTypeName();
+		String method = proceedingJoinPoint.getSignature().getName();
+		
 		Object[] args = proceedingJoinPoint.getArgs();
 		
 		for(Object arg : args) {
@@ -55,7 +66,7 @@ public class ValidationAdvice {
 					Map<String, String> errorMap = new HashMap<>();
 					for(FieldError error : bindingResult.getFieldErrors()) {
 						errorMap.put(error.getField(), error.getDefaultMessage());
-						// System.out.println(error.getDefaultMessage());
+						log.warn(type+"."+method+"() => 필드 : "+error.getField()+", 메세지 : "+error.getDefaultMessage());
 					}
 					throw new CustomValidationException("유효성 검사 실패",errorMap);
 				}

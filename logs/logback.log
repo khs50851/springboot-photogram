@@ -1,0 +1,1 @@
+[2021-08-18 20:40:39:90672668][http-nio-8080-exec-3] WARN  c.c.p.handler.aop.ValidationAdvice - com.cos.photogramstart.web.api.CommentApiController.commentSave() => 필드 : content, 메세지 : 공백일 수 없습니다
