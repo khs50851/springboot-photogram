@@ -21,7 +21,7 @@
                 <form class="upload-form" action="/image" method="POST" enctype="multipart/form-data">
                     <input  type="file" name="file" onchange="imageChoose(this)"/>
                     <div class="upload-img">
-                        <img src="/images/person.jpeg" alt="" id="imageUploadPreview" />
+                        <img src="/images/default_image2.png" alt="" id="imageUploadPreview" />
                     </div>
                     
                     <!--사진설명 + 업로드버튼-->

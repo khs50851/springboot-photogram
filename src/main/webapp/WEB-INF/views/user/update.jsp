@@ -13,7 +13,7 @@
 			<!--프로필셋팅 아이디영역-->
 			<div class="content-item__01">
 				<div class="item__img">
-					<img src="#" onerror="this.src='/images/person.jpeg'" />
+					<img src="#" onerror="this.src='/images/default_image2.png'" />
 				</div>
 				<div class="item__username">
 					<h2>${principal.user.username}</h2>
